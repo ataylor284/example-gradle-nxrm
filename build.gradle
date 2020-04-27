@@ -1,0 +1,32 @@
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+repositories {
+    maven {
+        url "http://localhost:8082/nexus/content/groups/public/"
+    }
+}
+
+dependencies {
+    testCompile "junit:junit:4.13"
+}
+
+publishing {
+    repositories {
+        maven {
+            url 'http://localhost:8082/nexus/content/repositories/snapshots'
+            credentials {
+                username 'admin'
+                password 'admin123'
+            }
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            version = '1.0-SNAPSHOT'
+            artifactId = 'example-gradle-nxrm'
+            groupId = 'ca.redtoad.example'
+            from components.java
+        }
+    }
+}
